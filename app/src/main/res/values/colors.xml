@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="background">#000000</color>
+
+    <color name="tab_gradient_end">#1F4E95</color>
+    <color name="tab_gradient_start">#0D3178</color>
+
+    <color name="white">#FFFFFF</color>
+</resources>
