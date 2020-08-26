@@ -1,13 +1,20 @@
-package com.example.moviesexplorer.data.network.response
+package com.example.moviesexplorer.data.db.entity
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.moviesexplorer.data.models.Genre
 import com.example.moviesexplorer.data.models.ProductionCompany
 import com.example.moviesexplorer.data.models.ProductionCountry
 import com.example.moviesexplorer.data.models.SpokenLanguage
 import com.google.gson.annotations.SerializedName
 
+@Entity(
+    tableName = "movies"
+)
 data class Movie(
+    @PrimaryKey
+    val id: Int,
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,
@@ -16,7 +23,6 @@ data class Movie(
     val budget: Int,
     val genres: List<Genre>,
     val homepage: String,
-    val id: Int,
     @SerializedName("imdb_id")
     val imdbId: String,
     @SerializedName("original_language")
@@ -44,5 +50,5 @@ data class Movie(
     @SerializedName("vote_average")
     val voteAverage: Double,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int,
 )

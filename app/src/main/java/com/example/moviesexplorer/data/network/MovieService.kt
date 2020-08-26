@@ -1,7 +1,6 @@
 package com.example.moviesexplorer.data.network
 
-import com.example.moviesexplorer.data.models.MovieLite
-import com.example.moviesexplorer.data.network.response.Movie
+import com.example.moviesexplorer.data.db.entity.Movie
 import com.example.moviesexplorer.data.network.response.PopularMoviesResponse
 import com.example.moviesexplorer.data.network.response.TopMoviesResponse
 import okhttp3.Interceptor
