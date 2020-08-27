@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moviesexplorer.R
-import com.example.moviesexplorer.data.db.entity.Movie
-import kotlinx.android.synthetic.main.activity_main.view.*
+import com.example.moviesexplorer.data.models.MovieLite
 import kotlinx.android.synthetic.main.list_item_movie.view.*
 
 class MoviesRecyclerAdapter : RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHolder>() {
@@ -27,7 +26,8 @@ class MoviesRecyclerAdapter : RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = differ.currentList[position]
         holder.itemView.apply {
-            Glide.with(this).load(movie.posterPath).into(movie_image)
+            Glide.with(this).load("https://image.tmdb.org/t/p/w342${movie.posterPath}")
+                .into(movie_image)
             movie_name.text = movie.originalTitle
 
             setOnClickListener {
@@ -38,21 +38,21 @@ class MoviesRecyclerAdapter : RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHol
 
     override fun getItemCount() = differ.currentList.size
 
-    private val differCallback = object : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<MovieLite>() {
+        override fun areItemsTheSame(oldItem: MovieLite, newItem: MovieLite): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areContentsTheSame(oldItem: MovieLite, newItem: MovieLite): Boolean {
             return oldItem == newItem
         }
     }
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    private var onItemClickListener: ((Movie) -> Unit)? = null
+    private var onItemClickListener: ((MovieLite) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Movie) -> Unit) {
+    fun setOnItemClickListener(listener: (MovieLite) -> Unit) {
         onItemClickListener = listener
     }
 }

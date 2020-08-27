@@ -6,9 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.moviesexplorer.R
 import com.example.moviesexplorer.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
