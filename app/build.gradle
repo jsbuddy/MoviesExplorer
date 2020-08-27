@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
@@ -52,8 +52,9 @@ dependencies {
 
     implementation "androidx.room:room-runtime:2.2.5"
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor "androidx.room:room-compiler:2.2.5"
+
     implementation "androidx.room:room-ktx:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -12,7 +12,6 @@ import com.example.moviesexplorer.data.db.entity.Movie
     entities = [Movie::class],
     version = 1
 )
-@TypeConverters(Converters::class)
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun getMovieDao(): MovieDao
 
