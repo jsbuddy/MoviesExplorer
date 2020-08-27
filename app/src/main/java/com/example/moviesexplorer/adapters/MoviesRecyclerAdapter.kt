@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moviesexplorer.R
-import com.example.moviesexplorer.data.models.MovieLite
+import com.example.moviesexplorer.data.db.entity.Movie
 import kotlinx.android.synthetic.main.list_item_movie.view.*
 
 class MoviesRecyclerAdapter : RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHolder>() {
@@ -38,21 +38,21 @@ class MoviesRecyclerAdapter : RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHol
 
     override fun getItemCount() = differ.currentList.size
 
-    private val differCallback = object : DiffUtil.ItemCallback<MovieLite>() {
-        override fun areItemsTheSame(oldItem: MovieLite, newItem: MovieLite): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: MovieLite, newItem: MovieLite): Boolean {
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
         }
     }
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    private var onItemClickListener: ((MovieLite) -> Unit)? = null
+    private var onItemClickListener: ((Movie) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (MovieLite) -> Unit) {
+    fun setOnItemClickListener(listener: (Movie) -> Unit) {
         onItemClickListener = listener
     }
 }
