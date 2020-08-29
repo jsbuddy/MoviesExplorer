@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.moviesexplorer.MainActivity
+import com.example.moviesexplorer.R
 import com.example.moviesexplorer.databinding.FragmentMovieBinding
 
 class MovieFragment : Fragment() {
@@ -26,6 +27,8 @@ class MovieFragment : Fragment() {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
         model = (activity as MainActivity).model
 
+        setupToolbar()
+
         binding.movie = args.movie
         binding.favorite.setOnCheckedChangeListener { _, checked ->
             if (checked) {
@@ -42,5 +45,10 @@ class MovieFragment : Fragment() {
             startActivity(intent)
         }
         return binding.root
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+        binding.toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
     }
 }
