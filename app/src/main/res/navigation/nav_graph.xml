@@ -2,17 +2,45 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/popularFragment">
 
     <fragment
         android:id="@+id/popularFragment"
         android:name="com.example.moviesexplorer.ui.popular.PopularFragment"
         android:label="fragment_popular"
-        tools:layout="@layout/fragment_popular" />
+        tools:layout="@layout/fragment_popular">
+        <action
+            android:id="@+id/action_popularFragment_to_movieFragment"
+            app:destination="@id/movieFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/topRatedFragment"
         android:name="com.example.moviesexplorer.ui.toprated.TopRatedFragment"
         android:label="fragment_top_rated"
-        tools:layout="@layout/fragment_top_rated" />
+        tools:layout="@layout/fragment_top_rated">
+        <action
+            android:id="@+id/action_topRatedFragment_to_movieFragment"
+            app:destination="@id/movieFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.example.moviesexplorer.ui.movie.MovieFragment"
+        android:label="fragment_movie"
+        tools:layout="@layout/fragment_movie">
+        <argument
+            android:name="movie"
+            app:argType="com.example.moviesexplorer.data.db.entity.Movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.moviesexplorer.ui.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" />
 </navigation>

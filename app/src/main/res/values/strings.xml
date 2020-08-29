@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">Movies Explorer</string>
-    <string name="tab_text_popular">Popular</string>
-    <string name="tab_text_top_rated">Top rated</string>
 </resources>

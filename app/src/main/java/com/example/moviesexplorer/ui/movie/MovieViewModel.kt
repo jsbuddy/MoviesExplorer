@@ -3,6 +3,7 @@ package com.example.moviesexplorer.ui.movie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.moviesexplorer.data.db.entity.Movie
 import com.example.moviesexplorer.data.network.response.PopularMoviesResponse
 import com.example.moviesexplorer.data.network.response.TopRatedMoviesResponse
 import com.example.moviesexplorer.data.repository.MovieRepository
@@ -28,7 +29,17 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
     private fun getTopRatedMovies() = viewModelScope.launch {
         topRatedMovies.postValue(Resource.Loading())
         val response = repository.getTopRatedMovies()
-        topRatedMovies.postValue(handleResponse<TopRatedMoviesResponse>(response))
+        topRatedMovies.postValue(handleResponse(response))
+    }
+
+    fun getSavedMovies() = repository.getSavedMovies()
+
+    fun saveMovie(movie: Movie) = viewModelScope.launch {
+        repository.saveMovie(movie)
+    }
+
+    fun deleteMovie(movie: Movie) = viewModelScope.launch {
+        repository.deleteMovie(movie)
     }
 
     private fun <T> handleResponse(response: Response<T>): Resource<T> {

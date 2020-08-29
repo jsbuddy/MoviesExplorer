@@ -22,7 +22,7 @@
         android:id="@+id/bottomAppBar"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:background="@drawable/background_bottom_bar"
+        android:background="@drawable/background_bottom_appbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

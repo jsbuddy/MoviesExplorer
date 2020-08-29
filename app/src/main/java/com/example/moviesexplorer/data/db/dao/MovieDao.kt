@@ -13,5 +13,5 @@ interface MovieDao {
     fun getMovies(): LiveData<List<Movie>>
 
     @Delete
-    suspend fun deleteMovie(movie: Movie)
+    suspend fun delete(movie: Movie)
 }

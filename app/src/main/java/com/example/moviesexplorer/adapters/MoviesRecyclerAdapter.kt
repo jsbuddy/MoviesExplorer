@@ -28,8 +28,6 @@ class MoviesRecyclerAdapter : RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHol
         holder.itemView.apply {
             Glide.with(this).load("https://image.tmdb.org/t/p/w342${movie.posterPath}")
                 .into(movie_image)
-            movie_name.text = movie.originalTitle
-
             setOnClickListener {
                 onItemClickListener?.let { it(movie) }
             }
