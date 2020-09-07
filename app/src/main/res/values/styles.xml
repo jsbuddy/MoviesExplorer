@@ -5,6 +5,7 @@
         <item name="colorOnBackground">@color/white</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/background</item>
         <item name="fontFamily">@font/varela_round</item>
     </style>
 
