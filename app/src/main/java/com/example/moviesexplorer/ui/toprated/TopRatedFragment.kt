@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviesexplorer.MainActivity
+import com.example.moviesexplorer.NavGraphDirections
+import com.example.moviesexplorer.R
 import com.example.moviesexplorer.adapters.MovieRecyclerViewItemDecoration
 import com.example.moviesexplorer.adapters.MoviesRecyclerAdapter
 import com.example.moviesexplorer.databinding.FragmentTopRatedBinding
@@ -63,8 +65,9 @@ class TopRatedFragment : Fragment() {
         }
 
         moviesRecyclerAdapter.setOnItemClickListener {
-            val action = TopRatedFragmentDirections.actionTopRatedFragmentToMovieFragment(it)
-            findNavController().navigate(action)
+            val action = NavGraphDirections.actionGlobalMovieFragment(it)
+            Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
+                .navigate(action)
         }
     }
 }

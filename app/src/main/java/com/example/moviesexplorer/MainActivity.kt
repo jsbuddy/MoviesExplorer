@@ -3,8 +3,6 @@ package com.example.moviesexplorer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.moviesexplorer.data.db.MovieDatabase
 import com.example.moviesexplorer.data.repository.MovieRepository
 import com.example.moviesexplorer.databinding.ActivityMainBinding
@@ -24,10 +22,5 @@ class MainActivity : AppCompatActivity() {
         val movieRepository = MovieRepository(MovieDatabase(this))
         val viewModelProviderFactory = MovieViewModelProviderFactory(movieRepository)
         model = ViewModelProvider(this, viewModelProviderFactory).get(MovieViewModel::class.java)
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(binding.navHostFragment.id) as NavHostFragment
-        binding.bottomAppBar.setupWithNavController(navHostFragment.navController)
-
     }
 }

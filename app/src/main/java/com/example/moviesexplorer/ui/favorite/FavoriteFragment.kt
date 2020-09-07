@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesexplorer.MainActivity
+import com.example.moviesexplorer.NavGraphDirections
+import com.example.moviesexplorer.R
 import com.example.moviesexplorer.adapters.MovieRecyclerViewItemDecoration
 import com.example.moviesexplorer.adapters.MoviesRecyclerAdapter
 import com.example.moviesexplorer.databinding.FragmentFavoriteBinding
@@ -50,6 +53,12 @@ class FavoriteFragment : Fragment() {
             adapter = moviesRecyclerAdapter
             layoutManager = GridLayoutManager(activity, 2)
             addItemDecoration(MovieRecyclerViewItemDecoration(40))
+        }
+
+        moviesRecyclerAdapter.setOnItemClickListener {
+            val action = NavGraphDirections.actionGlobalMovieFragment(it)
+            Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
+                .navigate(action)
         }
     }
 
