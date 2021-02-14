@@ -10,7 +10,8 @@ import com.example.moviesexplorer.data.db.entity.Movie
 
 @Database(
     entities = [Movie::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class MovieDatabase : RoomDatabase() {

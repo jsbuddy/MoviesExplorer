@@ -1,37 +1,41 @@
 package com.example.moviesexplorer.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.moviesexplorer.R
 import com.example.moviesexplorer.data.db.entity.Movie
-import kotlinx.android.synthetic.main.list_item_movie.view.*
+import com.example.moviesexplorer.databinding.ListItemMovieBinding
 
 class MoviesRecyclerAdapter : RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ViewHolder(
+        private val binding: ListItemMovieBinding,
+        private val context: Context,
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(movie: Movie) {
+            binding.apply {
+                Glide.with(context).load("https://image.tmdb.org/t/p/w342${movie.posterPath}")
+                    .into(movieImage)
+                root.setOnClickListener {
+                    onItemClickListener?.let { it(movie) }
+                }
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.list_item_movie, parent, false
-            )
-        )
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ListItemMovieBinding.inflate(inflater)
+        return ViewHolder(binding, parent.context)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = differ.currentList[position]
-        holder.itemView.apply {
-            Glide.with(this).load("https://image.tmdb.org/t/p/w342${movie.posterPath}")
-                .into(movie_image)
-            setOnClickListener {
-                onItemClickListener?.let { it(movie) }
-            }
-        }
+        holder.bind(movie)
     }
 
     override fun getItemCount() = differ.currentList.size

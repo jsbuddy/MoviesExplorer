@@ -1,15 +1,13 @@
 package com.example.moviesexplorer.ui.favorite
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviesexplorer.MainActivity
 import com.example.moviesexplorer.NavGraphDirections
 import com.example.moviesexplorer.R
 import com.example.moviesexplorer.adapters.MovieRecyclerViewItemDecoration
@@ -18,23 +16,22 @@ import com.example.moviesexplorer.databinding.FragmentFavoriteBinding
 import com.example.moviesexplorer.ui.movie.MovieViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class FavoriteFragment : Fragment() {
-    private lateinit var model: MovieViewModel
+class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
-    private var _binding: FragmentFavoriteBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding: FragmentFavoriteBinding
+    private val viewModel: MovieViewModel by activityViewModels()
     private lateinit var moviesRecyclerAdapter: MoviesRecyclerAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        model = (activity as MainActivity).model
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentFavoriteBinding.bind(view)
+        initialize()
+    }
+
+    private fun initialize() {
         setupRecyclerView()
         setupSwipeToDelete()
-        model.getSavedMovies().observe(viewLifecycleOwner, {
+
+        viewModel.getSavedMovies().observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
                 moviesRecyclerAdapter.differ.submitList(it)
                 binding.moviesList.visibility = View.VISIBLE
@@ -44,7 +41,6 @@ class FavoriteFragment : Fragment() {
                 binding.empty.visibility = View.VISIBLE
             }
         })
-        return binding.root
     }
 
     private fun setupRecyclerView() {
@@ -52,7 +48,7 @@ class FavoriteFragment : Fragment() {
         binding.moviesList.apply {
             adapter = moviesRecyclerAdapter
             layoutManager = GridLayoutManager(activity, 2)
-            addItemDecoration(MovieRecyclerViewItemDecoration(40))
+            addItemDecoration(MovieRecyclerViewItemDecoration())
         }
 
         moviesRecyclerAdapter.setOnItemClickListener {
@@ -74,14 +70,14 @@ class FavoriteFragment : Fragment() {
             ) = true
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
+                val position = viewHolder.bindingAdapterPosition
                 val movie = moviesRecyclerAdapter.differ.currentList[position]
 
-                model.deleteMovie(movie)
+                viewModel.deleteMovie(movie)
                 Snackbar.make(requireView(), "Removed from favorites", Snackbar.LENGTH_SHORT)
                     .apply {
                         setAction("Undo") {
-                            model.saveMovie(movie)
+                            viewModel.saveMovie(movie)
                         }
                         show()
                     }

@@ -11,15 +11,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 const val API_KEY = "11e1cc1b02db4746042657606f654f37"
 
-interface MovieService {
+interface MovieAPI {
     @GET("movie/popular")
-    suspend fun getPopularMovies(): Response<PopularMoviesResponse>
+    suspend fun getPopularMovies(@Query("page") page: Int): Response<PopularMoviesResponse>
 
     @GET("movie/top_rated")
-    suspend fun getTopRatedMovies(): Response<TopRatedMoviesResponse>
+    suspend fun getTopRatedMovies(@Query("page") page: Int): Response<TopRatedMoviesResponse>
 
     @GET("movie/{id}")
     suspend fun getMovie(@Path("id") id: Int): Response<Movie>
@@ -27,7 +28,7 @@ interface MovieService {
     companion object {
         private val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        operator fun invoke(): MovieService {
+        operator fun invoke(): MovieAPI {
             val interceptor = Interceptor { chain ->
                 val url = chain.request().url.newBuilder()
                     .addQueryParameter("api_key", API_KEY)
@@ -46,7 +47,7 @@ interface MovieService {
             return Retrofit.Builder().client(okHttp)
                 .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create()).build()
-                .create(MovieService::class.java)
+                .create(MovieAPI::class.java)
         }
     }
 }

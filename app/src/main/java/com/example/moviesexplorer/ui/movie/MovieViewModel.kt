@@ -1,35 +1,44 @@
 package com.example.moviesexplorer.ui.movie
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.example.moviesexplorer.data.PopularMoviesRemotePagingSource
+import com.example.moviesexplorer.data.TopRatedMoviesRemotePagingSource
 import com.example.moviesexplorer.data.db.entity.Movie
-import com.example.moviesexplorer.data.network.response.PopularMoviesResponse
-import com.example.moviesexplorer.data.network.response.TopRatedMoviesResponse
 import com.example.moviesexplorer.data.repository.MovieRepository
 import com.example.moviesexplorer.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
-    val popularMovies = MutableLiveData<Resource<PopularMoviesResponse>>()
-    val topRatedMovies = MutableLiveData<Resource<TopRatedMoviesResponse>>()
+@HiltViewModel
+class MovieViewModel @Inject constructor(
+    private val repository: MovieRepository,
+) : ViewModel() {
 
-    init {
-        getPopularMovies()
-        getTopRatedMovies()
-    }
+    val popularMovies = Pager(config = PagingConfig(
+        pageSize = 20,
+        enablePlaceholders = true
+    )) {
+        PopularMoviesRemotePagingSource(repository)
+    }.flow
 
-    private fun getPopularMovies() = viewModelScope.launch {
-        popularMovies.postValue(Resource.Loading())
-        val response = repository.getPopularMovies()
-        popularMovies.postValue(handleResponse(response))
-    }
+    val topRatedMovies = Pager(config = PagingConfig(pageSize = 20)) {
+        TopRatedMoviesRemotePagingSource(repository)
+    }.flow
 
-    private fun getTopRatedMovies() = viewModelScope.launch {
-        topRatedMovies.postValue(Resource.Loading())
-        val response = repository.getTopRatedMovies()
-        topRatedMovies.postValue(handleResponse(response))
+    private val _uiState = MutableStateFlow<UiState>(UiState.Empty)
+    val uiState = _uiState.asStateFlow()
+
+    sealed class UiState {
+        object Empty : UiState()
+        object Loading : UiState()
+        object Success : UiState()
     }
 
     fun getSavedMovies() = repository.getSavedMovies()

@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.moviesexplorer.data.db.Converters
+import com.example.moviesexplorer.data.models.MovieCategory
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -36,4 +37,5 @@ data class Movie(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int,
+    var category: MovieCategory,
 ) : Serializable

@@ -1,70 +1,51 @@
 package com.example.moviesexplorer.ui.toprated
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.moviesexplorer.MainActivity
 import com.example.moviesexplorer.NavGraphDirections
 import com.example.moviesexplorer.R
 import com.example.moviesexplorer.adapters.MovieRecyclerViewItemDecoration
-import com.example.moviesexplorer.adapters.MoviesRecyclerAdapter
+import com.example.moviesexplorer.adapters.MoviesPagerAdapter
 import com.example.moviesexplorer.databinding.FragmentTopRatedBinding
 import com.example.moviesexplorer.ui.movie.MovieViewModel
-import com.example.moviesexplorer.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
-class TopRatedFragment : Fragment() {
+@AndroidEntryPoint
+class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
 
-    private var _binding: FragmentTopRatedBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentTopRatedBinding
 
-    private lateinit var moviesRecyclerAdapter: MoviesRecyclerAdapter
-    private lateinit var model: MovieViewModel
+    private lateinit var moviesPagerAdapter: MoviesPagerAdapter
+    private val viewModel: MovieViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentTopRatedBinding.inflate(inflater, container, false)
-        model = (activity as MainActivity).model
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentTopRatedBinding.bind(view)
+        initialize()
+    }
+
+    private fun initialize() {
         setupRecyclerView()
-
-        model.topRatedMovies.observe(viewLifecycleOwner, {
-            when (it) {
-                is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                is Resource.Success -> {
-                    binding.progressBar.visibility = View.INVISIBLE
-                    it.data?.let { moviesResponse ->
-                        moviesRecyclerAdapter.differ.submitList(moviesResponse.results)
-                        binding.moviesList.visibility = View.VISIBLE
-                    }
-                }
-                is Resource.Error -> {
-                    binding.progressBar.visibility = View.INVISIBLE
-                    it.message?.let { message ->
-                        Log.e("NetworkError", message)
-                    }
-                }
+        lifecycleScope.launchWhenStarted {
+            viewModel.topRatedMovies.collectLatest {
+                moviesPagerAdapter.submitData(it)
             }
-        })
-        return binding.root
+        }
     }
 
     private fun setupRecyclerView() {
-        moviesRecyclerAdapter = MoviesRecyclerAdapter()
+        moviesPagerAdapter = MoviesPagerAdapter()
         binding.moviesList.apply {
-            adapter = moviesRecyclerAdapter
-            layoutManager = GridLayoutManager(activity, 2)
-            addItemDecoration(MovieRecyclerViewItemDecoration(40))
+            adapter = moviesPagerAdapter
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            addItemDecoration(MovieRecyclerViewItemDecoration())
         }
-
-        moviesRecyclerAdapter.setOnItemClickListener {
+        moviesPagerAdapter.setOnItemClickListener {
             val action = NavGraphDirections.actionGlobalMovieFragment(it)
             Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
                 .navigate(action)
