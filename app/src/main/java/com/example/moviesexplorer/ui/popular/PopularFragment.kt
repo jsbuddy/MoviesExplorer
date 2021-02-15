@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesexplorer.NavGraphDirections
 import com.example.moviesexplorer.R
 import com.example.moviesexplorer.adapters.MovieRecyclerViewItemDecoration
@@ -22,7 +21,6 @@ import kotlinx.coroutines.flow.collectLatest
 class PopularFragment : Fragment(R.layout.fragment_popular) {
 
     private lateinit var binding: FragmentPopularBinding
-
     private val moviesPagerAdapter = MoviesPagerAdapter()
     private val viewModel: MovieViewModel by activityViewModels()
 
@@ -58,7 +56,6 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
                 Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
                     .navigate(action)
             }
-            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
     }
 }

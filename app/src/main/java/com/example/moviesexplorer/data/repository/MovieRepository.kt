@@ -17,7 +17,7 @@ class MovieRepository(
 
     suspend fun saveMovie(movie: Movie) = db.movieDao().upsert(movie)
 
-    suspend fun saveMovies(movies: List<Movie>) = db.movieDao().insertMovies(movies)
-
     suspend fun deleteMovie(movie: Movie) = db.movieDao().delete(movie)
+
+    suspend fun deleteMovies(movies: List<Movie>) = db.movieDao().deleteMovies(movies)
 }

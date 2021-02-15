@@ -21,10 +21,7 @@ class MovieViewModel @Inject constructor(
     private val repository: MovieRepository,
 ) : ViewModel() {
 
-    val popularMovies = Pager(config = PagingConfig(
-        pageSize = 20,
-        enablePlaceholders = true
-    )) {
+    val popularMovies = Pager(config = PagingConfig(pageSize = 20)) {
         PopularMoviesRemotePagingSource(repository)
     }.flow
 
@@ -58,5 +55,9 @@ class MovieViewModel @Inject constructor(
             }
         }
         return Resource.Error(response.message())
+    }
+
+    fun deleteMovies(movies: List<Movie>) = viewModelScope.launch {
+        repository.deleteMovies(movies)
     }
 }

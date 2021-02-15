@@ -10,9 +10,6 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(movie: Movie): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertMovies(movies: List<Movie>)
-
     @Query("SELECT * FROM movies")
     fun getMovies(): LiveData<List<Movie>>
 
@@ -21,4 +18,7 @@ interface MovieDao {
 
     @Delete
     suspend fun delete(movie: Movie)
+
+    @Delete
+    suspend fun deleteMovies(movies: List<Movie>)
 }

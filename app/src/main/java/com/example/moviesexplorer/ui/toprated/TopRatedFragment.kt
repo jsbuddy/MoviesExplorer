@@ -21,7 +21,7 @@ class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
 
     private lateinit var binding: FragmentTopRatedBinding
 
-    private lateinit var moviesPagerAdapter: MoviesPagerAdapter
+    private val moviesPagerAdapter = MoviesPagerAdapter()
     private val viewModel: MovieViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +39,6 @@ class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
     }
 
     private fun setupRecyclerView() {
-        moviesPagerAdapter = MoviesPagerAdapter()
         binding.moviesList.apply {
             adapter = moviesPagerAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
