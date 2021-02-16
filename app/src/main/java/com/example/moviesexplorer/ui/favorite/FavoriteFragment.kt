@@ -121,9 +121,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 viewModel.deleteMovie(movie)
                 Snackbar.make(requireView(), "Removed from favorites", Snackbar.LENGTH_SHORT)
                     .apply {
-                        setAction("Undo") {
-                            viewModel.saveMovie(movie)
-                        }
+                        setAction("Undo") { viewModel.saveMovie(movie) }
                         show()
                     }
             }

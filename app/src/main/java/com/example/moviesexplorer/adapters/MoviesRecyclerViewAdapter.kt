@@ -43,11 +43,11 @@ class MoviesRecyclerAdapter(
                 Glide.with(context)
                     .load("https://image.tmdb.org/t/p/w342${movie.posterPath}")
                     .into(movieImage)
-                root.setOnClickListener { view ->
+                root.setOnClickListener {
                     if (mode.value == Mode.MultiSelect) select(movie)
                     else onItemClickListener?.let { it(movie) }
                 }
-                root.setOnLongClickListener { view ->
+                root.setOnLongClickListener {
                     _mode.value = Mode.MultiSelect
                     select(movie)
                     true
