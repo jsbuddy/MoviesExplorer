@@ -3,10 +3,12 @@ package com.example.moviesexplorer.ui.popular
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviesexplorer.NavGraphDirections
 import com.example.moviesexplorer.R
@@ -55,6 +57,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
                 val action = NavGraphDirections.actionGlobalMovieFragment(it)
                 Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
                     .navigate(action)
+            }
+            addLoadStateListener {
+                binding.progressBar.isVisible = it.source.refresh is LoadState.Loading
             }
         }
     }
