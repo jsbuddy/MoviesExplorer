@@ -21,9 +21,5 @@
         tools:layout="@layout/fragment_home" />
     <action
         android:id="@+id/action_global_movieFragment"
-        app:destination="@id/movieFragment"
-        app:enterAnim="@anim/fragment_open_enter"
-        app:exitAnim="@anim/fragment_open_exit"
-        app:popEnterAnim="@anim/fragment_close_enter"
-        app:popExitAnim="@anim/fragment_close_exit" />
+        app:destination="@id/movieFragment" />
 </navigation>
